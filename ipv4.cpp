@@ -69,6 +69,51 @@ class ipv4
 
         return is;
     }
+
+    ipv4& operator++()
+    {
+        *this = ipv4(1 + to_ulong());
+
+        return *this;
+    }
+
+    ipv4& operator++(int)
+    {
+        ipv4 result(*this);
+        ++(*this);
+
+        return *this;
+    }
+
+    friend bool operator==(ipv4 const &a1, ipv4 const &a2) noexcept
+    {
+        return a1.data == a2.data;
+    }
+
+    friend bool operator!=(ipv4 const &a1, ipv4 const &a2) noexcept
+    {
+        return !(a1 == a2);
+    }
+
+    friend bool operator<(ipv4 const &a1, ipv4 const &a2) noexcept
+    {
+        return a1.to_ulong() < a2.to_ulong();
+    }
+
+    friend bool operator>(ipv4 const &a1, ipv4 const &a2) noexcept
+    {
+        return a2 < a1;
+    }
+
+    friend bool operator<=(ipv4 const &a1, ipv4 const &a2) noexcept
+    {
+        return !(a1 > a2);
+    }
+
+    friend bool operator>=(ipv4 const &a1, ipv4 const &a2) noexcept
+    {
+        return !(a1 < a2);
+    }
 };
 
 int main(void)
@@ -83,6 +128,17 @@ int main(void)
 
     if(!cin.fail())
         cout << ip << endl;
+
+    cout << "input range: ";
+    ipv4 a1, a2;
+    cin >> a1 >> a2;
+
+    if (a2 > a1) {
+        for (ipv4 a = a1; a <= a2; a++)
+            cout << a << endl;
+    } else {
+        cerr << "invalid range." << endl;
+    }
 
     return 0;
 }
